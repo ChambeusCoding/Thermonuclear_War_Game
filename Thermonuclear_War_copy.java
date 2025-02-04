@@ -1,29 +1,24 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Random;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.*;
 
 public class Thermonuclear_War_copy extends JFrame {
-    // Constants
+    // Constants for password management
     static final String USER_PASSWORD_FILE = "user_password.txt";
     static final String ADMIN_PASSWORD_FILE = "admin_password.txt";
     static final String ENCRYPTION_KEY = "0123456789abcdef";  // 16-byte key for AES
-    static final int MAX_WEAPONS = 3000;  // Max number of nuclear weapons a player can have
-    static final int MISSILE_DAMAGE = 25;  // Percentage damage from each missile hit
-    static final int NUM_CITIES = 19502;  // Number of cities per side
-    static final double DEFENSE_CHANCE = 0.5;  // Chance of missile being intercepted by defense systems
-    static final double WEATHER_EFFECT = 0.2;  // Chance that weather will impact missile damage or defenses
 
-    private final Font mainFont = new Font("Segoe print", Font.BOLD, 18);
-    private JTextField tfPassword, tfAdminPassword;
-    private JTextArea taMessage;
+    private JTextArea taMessage;  // Used to display messages
+    private int xPosition = 0;  // Initial position of the text for the transition
+    private String currentMessage = "Opening Joshua... User or Admin Mode.";  // Initial message
     private Player player;
     private AI ai;
-    private boolean gameInProgress = false;
 
     public Thermonuclear_War_copy() {
         setTitle("W.O.P.R Joshua");
@@ -39,9 +34,10 @@ public class Thermonuclear_War_copy extends JFrame {
         mainPanel.setBackground(new Color(139, 0, 0));
 
         taMessage = new JTextArea();
-        taMessage.setFont(mainFont);
+        taMessage.setFont(new Font("Segoe print", Font.BOLD, 18));
         taMessage.setEditable(false);
-        taMessage.setText("Opening Joshua...\nUser or Admin Mode.");
+        taMessage.setText(currentMessage);
+        taMessage.setOpaque(false);  // Make it transparent for smooth transitions
         JScrollPane scrollPane = new JScrollPane(taMessage);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -49,11 +45,11 @@ public class Thermonuclear_War_copy extends JFrame {
         buttonPanel.setLayout(new FlowLayout());
 
         JButton btnUserMode = new JButton("User");
-        btnUserMode.setFont(mainFont);
+        btnUserMode.setFont(new Font("Segoe print", Font.BOLD, 18));
         btnUserMode.addActionListener(e -> handleUserMode());
 
         JButton btnAdminMode = new JButton("Admin");
-        btnAdminMode.setFont(mainFont);
+        btnAdminMode.setFont(new Font("Segoe print", Font.BOLD, 18));
         btnAdminMode.addActionListener(e -> handleAdminMode());
 
         buttonPanel.add(btnUserMode);
@@ -63,6 +59,34 @@ public class Thermonuclear_War_copy extends JFrame {
 
         getContentPane().add(mainPanel);
         setVisible(true);
+
+        // Start the text transition effect
+        startTextTransition();
+    }
+
+    // Start the sliding text transition
+    private void startTextTransition() {
+        Timer timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Update the position of the text
+                xPosition += 2;
+                if (xPosition > getWidth()) {
+                    xPosition = -getFontMetrics(getFont()).stringWidth(currentMessage);  // Reset to left side
+                }
+                taMessage.repaint();  // Trigger a repaint to update the text position
+            }
+        });
+        timer.start();
+    }
+
+    // Override paintComponent to draw the text at the updated position
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.setFont(new Font("Segoe print", Font.BOLD, 18));
+        g.setColor(Color.WHITE);
+        g.drawString(currentMessage, xPosition, 100);  // Draw text at the current position
     }
 
     // Handle User Mode
