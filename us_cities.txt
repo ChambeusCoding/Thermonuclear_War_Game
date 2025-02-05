@@ -1,0 +1,107 @@
+ array.add ("Adrian");
+ array.add ("Alma");
+ array.add ("Ann Arbor
+ array.add ("Battle Creek
+ array.add ("Bay City
+ array.add ("Benton Harbor
+ array.add ("Bloomfield Hills
+ array.add ("Cadillac
+ array.add ("Charlevoix
+ array.add ("Cheboygan
+ array.add ("Dearborn
+ array.add ("Detroit
+ array.add ("East Lansing
+ array.add ("Eastpointe
+ array.add ("Ecorse
+ array.add ("Escanaba
+ array.add ("Flint
+ array.add ("Grand Haven
+ array.add ("Grand Rapids
+ array.add ("Grayling
+ array.add ("Grosse Pointe
+ array.add ("Hancock
+ array.add ("Highland Park
+ array.add ("Holland
+ array.add ("Houghton
+ array.add ("Interlochen
+ array.add ("Iron Mountain
+ array.add ("Ironwood
+ array.add ("Ishpeming
+ array.add ("Jackson
+ array.add ("Kalamazoo
+ array.add ("Lansing
+ array.add ("Livonia
+ array.add ("Ludington
+ array.add ("Mackinaw City
+ array.add ("Manistee
+ array.add ("Marquette
+ array.add ("Menominee
+ array.add ("Midland
+ array.add ("Monroe
+ array.add ("Mount Clemens
+ array.add ("Mount Pleasant
+ array.add ("Muskegon
+ array.add ("Niles
+ array.add ("Petoskey
+ array.add ("Pontiac
+ array.add ("Port Huron")
+ array.add ("Royal Oak");
+ array.add ("Saginaw");
+ array.add ("Saint Ignace");
+ array.add ("Saint Joseph");
+ array.add ("Sault Sainte Marie");
+ array.add ("Traverse City");
+ array.add ("Trenton");
+ array.add ("Warren");
+ array.add ("Wyandotte");
+ array.add ("Ypsilanti");
+ Alabama - Montgomery
+Juneau
+Phoenix
+Little Rock
+Sacramento
+Denver
+Hartford
+Dover
+Tallahassee
+Atlanta
+Honolulu
+Boise
+Springfield
+Indianapolis
+Des Moines
+Topeka
+Frankfort
+Baton Rouge
+Augusta
+Annapolis
+Boston
+Lansing
+Saint Paul
+Jackson
+Jefferson City
+Helena
+Lincoln
+Carson City
+Concord
+Trenton
+Santa Fe
+Albany
+Raleigh
+Bismarck
+Columbus
+Oklahoma City
+Salem
+Harrisburg
+Providence
+Columbia
+Pierre
+Nashville
+Texas - Austin
+Salt Lake City
+Montpelier
+Richmond
+Olympia
+Charleston
+Madison
+Cheyenne
