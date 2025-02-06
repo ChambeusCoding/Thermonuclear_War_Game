@@ -45,6 +45,7 @@ public class Thermonuclear_War_v3 extends JFrame {
         cities.add("Ann Arbor");
         cities.add("Battle Creek");
         cities.add("Bay City");
+        cities.add("Essexville");
         cities.add("Benton Harbor");
         cities.add("Bloomfield Hills");
         cities.add("Cadillac");
