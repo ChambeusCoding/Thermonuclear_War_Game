@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Thermonuclear_War {
+public class Thermonuclear_War_v1 {
 
     // Constants
     static final int MAX_WEAPONS = 3000;  // Max number of nuclear weapons a player can have

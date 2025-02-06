@@ -7,12 +7,19 @@ import java.util.Base64;
 import java.util.Random;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.ArrayList;
 
-public class Thermonuclear_War_copy extends JFrame {
+public class Thermonuclear_War_v2 extends JFrame {
     // Constants for password management
     static final String USER_PASSWORD_FILE = "user_password.txt";
     static final String ADMIN_PASSWORD_FILE = "admin_password.txt";
     static final String ENCRYPTION_KEY = "0123456789abcdef";  // 16-byte key for AES
+    static final int MAX_WEAPONS = 3000;  // Max number of nuclear weapons a player can have
+    static final int MISSILE_DAMAGE = 25;  // Percentage damage from each missile hit
+    static final int NUM_CITIES = 19502;  // Number of cities per side
+    static final double DEFENSE_CHANCE = 0.5;  // Chance of missile being intercepted by defense systems
+    static final double WEATHER_EFFECT = 0.2;  // Chance that weather will impact missile damage or defenses
+
 
     private JTextArea taMessage;  // Used to display messages
     private int xPosition = 0;  // Initial position of the text for the transition
@@ -20,7 +27,7 @@ public class Thermonuclear_War_copy extends JFrame {
     private Player player;
     private AI ai;
 
-    public Thermonuclear_War_copy() {
+    public Thermonuclear_War_v2() {
         setTitle("W.O.P.R Joshua");
         setSize(500, 600);
         setMinimumSize(new Dimension(1000, 700));
@@ -29,6 +36,115 @@ public class Thermonuclear_War_copy extends JFrame {
     }
 
     public void initialize() {
+    ArrayList<String> cities = new ArrayList<>();
+        cities.add("Adrian");
+        cities.add("Alma");
+        cities.add("Ann Arbor");
+        cities.add("Battle Creek");
+        cities.add("Bay City");
+        cities.add("Benton Harbor");
+        cities.add("Bloomfield Hills");
+        cities.add("Cadillac");
+        cities.add("Charlevoix");
+        cities.add("Cheboygan");
+        cities.add("Dearborn");
+        cities.add("Detroit");
+        cities.add("East Lansing");
+        cities.add("Eastpointe");
+        cities.add("Ecorse");
+        cities.add("Escanaba");
+        cities.add("Flint");
+        cities.add("Grand Haven");
+        cities.add("Grand Rapids");
+        cities.add("Grayling");
+        cities.add("Grosse Pointe");
+        cities.add("Hancock");
+        cities.add("Highland Park");
+        cities.add("Holland");
+        cities.add("Houghton");
+        cities.add("Interlochen");
+        cities.add("Iron Mountain");
+        cities.add("Ironwood");
+        cities.add("Ishpeming");
+        cities.add("Jackson");
+        cities.add("Kalamazoo");
+        cities.add("Lansing");
+        cities.add("Livonia");
+        cities.add("Ludington");
+        cities.add("Mackinaw City");
+        cities.add("Manistee");
+        cities.add("Marquette");
+        cities.add("Menominee");
+        cities.add("Midland");
+        cities.add("Monroe");
+        cities.add("Mount Clemens");
+        cities.add("Mount Pleasant");
+        cities.add("Muskegon");
+        cities.add("Niles");
+        cities.add("Petoskey");
+        cities.add("Pontiac");
+        cities.add("Port Huron");
+        cities.add("Royal Oak");
+        cities.add("Saginaw");
+        cities.add("Saint Ignace");
+        cities.add("Saint Joseph");
+        cities.add("Sault Sainte Marie");
+        cities.add("Traverse City");
+        cities.add("Trenton");
+        cities.add("Warren");
+        cities.add("Wyandotte");
+        cities.add("Ypsilanti");
+        cities.add("Montgomery");
+        cities.add("Juneau");
+        cities.add("Phoenix");
+        cities.add("Little Rock");
+        cities.add("Sacramento");
+        cities.add("Denver");
+        cities.add("Hartford");
+        cities.add("Dover");
+        cities.add("Tallahassee");
+        cities.add("Atlanta");
+        cities.add("Honolulu");
+        cities.add("Boise");
+        cities.add("Springfield");
+        cities.add("Indianapolis");
+        cities.add("Des Moines");
+        cities.add("Topeka");
+        cities.add("Frankfort");
+        cities.add("Baton Rouge");
+        cities.add("Augusta");
+        cities.add("Annapolis");
+        cities.add("Boston");
+        cities.add("Lansing");
+        cities.add("Saint Paul");
+        cities.add("Jackson");
+        cities.add("Jefferson City");
+        cities.add("Helena");
+        cities.add("Lincoln");
+        cities.add("Carson City");
+        cities.add("Concord");
+        cities.add("Trenton");
+        cities.add("Santa Fe");
+        cities.add("Albany");
+        cities.add("Raleigh");
+        cities.add("Bismarck");
+        cities.add("Columbus");
+        cities.add("Oklahoma City");
+        cities.add("Salem");
+        cities.add("Harrisburg");
+        cities.add("Providence");
+        cities.add("Columbia");
+        cities.add("Pierre");
+        cities.add("Nashville");
+        cities.add("Austin");
+        cities.add("Salt Lake City");
+        cities.add("Montpelier");
+        cities.add("Richmond");
+        cities.add("Olympia");
+        cities.add("Charleston");
+        cities.add("Madison");
+        cities.add("Cheyenne");
+          
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(139, 0, 0));
@@ -323,7 +439,7 @@ public class Thermonuclear_War_copy extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Thermonuclear_War_copy());
+        SwingUtilities.invokeLater(() -> new Thermonuclear_War_v2());
     }
 }
 
@@ -347,17 +463,35 @@ class Player {
     }
 
     void launchMissile(Player target) {
-        if (this.weapons > 0) {
-            taMessage.append(this.name + " launches a missile!\n");
-            this.weapons--;
-            int damage = new Random().nextInt(MISSILE_DAMAGE) + 1;
-            target.cities -= damage;
-            this.aggressionLevel++;
-            taMessage.append(this.name + " destroyed " + damage + "% of " + target.name + "'s cities.\n");
-        } else {
-            taMessage.append(this.name + " has no missiles left!\n");
+        private void launchMissile() {
+            taMessage.append("Missile launched! Choose a city to target.\n");
+        
+            // Convert ArrayList to array of city names
+            String[] cityArray = cities.toArray(new String[0]);  // Corrected: Converts List to Array
+        
+            // Prompt the player to choose a target city
+            String targetCity = (String) JOptionPane.showInputDialog(this,
+                    "Choose a target city:",
+                    "Missile Target",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    cityArray,
+                    cityArray[0]);
+        
+            if (targetCity != null && !targetCity.isEmpty()) {
+                taMessage.append("Missile heading to " + targetCity + ".\n");
+        
+                // Simulate missile hit or miss (random outcome)
+                if (new Random().nextDouble() < 0.5) {  // 50% chance of hit
+                    taMessage.append(targetCity + " has been hit!\n");
+                    ai.cities--;  // Decrease AI's city count
+                } else {
+                    taMessage.append(targetCity + " has survived the attack.\n");
+                }
+            } else {
+                taMessage.append("No city selected. Missile launch aborted.\n");
+            }
         }
-    }
 
     void defend() {
         taMessage.append(this.name + " activates missile defense systems!\n");

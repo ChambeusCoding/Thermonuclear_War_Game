@@ -9,11 +9,17 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.ArrayList;
 
-public class Thermonuclear_War_copy_blow extends JFrame {
+public class Thermonuclear_War_v6 extends JFrame {
     // Constants for password management
     static final String USER_PASSWORD_FILE = "user_password.txt";
     static final String ADMIN_PASSWORD_FILE = "admin_password.txt";
     static final String ENCRYPTION_KEY = "0123456789abcdef";  // 16-byte key for AES
+    static final int MAX_WEAPONS = 3000;  // Max number of nuclear weapons a player can have
+    static final int MISSILE_DAMAGE = 25;  // Percentage damage from each missile hit
+    static final int NUM_CITIES = 19502;  // Number of cities per side
+    static final double DEFENSE_CHANCE = 0.5;  // Chance of missile being intercepted by defense systems
+    static final double WEATHER_EFFECT = 0.2;  // Chance that weather will impact missile damage or defenses
+
 
     private JTextArea taMessage;  // Used to display messages
     private int xPosition = 0;  // Initial position of the text for the transition
@@ -21,10 +27,7 @@ public class Thermonuclear_War_copy_blow extends JFrame {
     private Player player;
     private AI ai;
 
-    // ArrayList to store cities
-    private ArrayList<String> cities;
-
-    public Thermonuclear_War_copy_blow() {
+    public Thermonuclear_War_v6() {
         setTitle("W.O.P.R Joshua");
         setSize(500, 600);
         setMinimumSize(new Dimension(1000, 700));
@@ -33,8 +36,7 @@ public class Thermonuclear_War_copy_blow extends JFrame {
     }
 
     public void initialize() {
-        // Initialize cities list with provided cities
-        cities = new ArrayList<>();
+    ArrayList<String> cities = new ArrayList<>();
         cities.add("Adrian");
         cities.add("Alma");
         cities.add("Ann Arbor");
@@ -142,8 +144,7 @@ public class Thermonuclear_War_copy_blow extends JFrame {
         cities.add("Charleston");
         cities.add("Madison");
         cities.add("Cheyenne");
-        cities.add("440 Old Orchard Dr, Essexville, MI 48732");
-
+        
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(139, 0, 0));
@@ -217,7 +218,7 @@ public class Thermonuclear_War_copy_blow extends JFrame {
             String enteredPassword = JOptionPane.showInputDialog(this, "Enter password:");
             if (verifyUserPassword(enteredPassword)) {
                 taMessage.append("Access granted... Accessing W.O.P.R\n");
-                launchMissile();
+                startGame();
             } else {
                 taMessage.append("Incorrect password. Access denied.\n");
             }
@@ -254,32 +255,6 @@ public class Thermonuclear_War_copy_blow extends JFrame {
             password.append(characters.charAt(random.nextInt(characters.length())));
         }
         return password.toString();
-    }
-
-    // Launch the missile and prompt for a city selection
-    private void launchMissile() {
-        taMessage.append("Missile launched! Select a target city.\n");
-
-        String[] cityArray = cities.toArray(new String[0]);  // Convert ArrayList to array
-        String targetCity = (String) JOptionPane.showInputDialog(this,
-                "Choose a target city:",
-                "Missile Target",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                cityArray,
-                cityArray[0]);
-
-        if (targetCity != null) {
-            taMessage.append("Missile heading to " + targetCity + ".\n");
-            // Simulate hit or miss (random outcome for simplicity)
-            if (new Random().nextBoolean()) {
-                taMessage.append(targetCity + " has been hit!\n");
-            } else {
-                taMessage.append(targetCity + " has survived the attack.\n");
-            }
-        } else {
-            taMessage.append("No city selected. Missile launch aborted.\n");
-        }
     }
 
     // Encrypt and store the user password
@@ -464,7 +439,7 @@ public class Thermonuclear_War_copy_blow extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Thermonuclear_War_copy_blow());
+        SwingUtilities.invokeLater(() -> new Thermonuclear_War_v2());
     }
 }
 
@@ -488,17 +463,35 @@ class Player {
     }
 
     void launchMissile(Player target) {
-        if (this.weapons > 0) {
-            taMessage.append(this.name + " launches a missile!\n");
-            this.weapons--;
-            int damage = new Random().nextInt(MISSILE_DAMAGE) + 1;
-            target.cities -= damage;
-            this.aggressionLevel++;
-            taMessage.append(this.name + " destroyed " + damage + "% of " + target.name + "'s cities.\n");
-        } else {
-            taMessage.append(this.name + " has no missiles left!\n");
+        private void launchMissile() {
+            taMessage.append("Missile launched! Choose a city to target.\n");
+        
+            // Convert ArrayList to array of city names
+            String[] cityArray = cities.toArray(new String[0]);  // Corrected: Converts List to Array
+        
+            // Prompt the player to choose a target city
+            String targetCity = (String) JOptionPane.showInputDialog(this,
+                    "Choose a target city:",
+                    "Missile Target",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    cityArray,
+                    cityArray[0]);
+        
+            if (targetCity != null && !targetCity.isEmpty()) {
+                taMessage.append("Missile heading to " + targetCity + ".\n");
+        
+                // Simulate missile hit or miss (random outcome)
+                if (new Random().nextDouble() < 0.5) {  // 50% chance of hit
+                    taMessage.append(targetCity + " has been hit!\n");
+                    ai.cities--;  // Decrease AI's city count
+                } else {
+                    taMessage.append(targetCity + " has survived the attack.\n");
+                }
+            } else {
+                taMessage.append("No city selected. Missile launch aborted.\n");
+            }
         }
-    }
 
     void defend() {
         taMessage.append(this.name + " activates missile defense systems!\n");
