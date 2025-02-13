@@ -1,18 +1,11 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.security.SecureRandom;
-import java.util.Base64;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.*;
 
-import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
-import java.util.ArrayList;
-
-public class Thermonuclear_War_v1 extends JFrame {
-    // Constants for password management
+public class Thermonuclear_War_v7 extends JFrame {
+    // Constants
     static final String USER_PASSWORD_FILE = "user_password.txt";
     static final String ADMIN_PASSWORD_FILE = "admin_password.txt";
     static final String ENCRYPTION_KEY = "0123456789abcdef";  // 16-byte key for AES
@@ -22,127 +15,27 @@ public class Thermonuclear_War_v1 extends JFrame {
     static final double DEFENSE_CHANCE = 0.5;  // Chance of missile being intercepted by defense systems
     static final double WEATHER_EFFECT = 0.2;  // Chance that weather will impact missile damage or defenses
 
-
     private JTextArea taMessage;  // Used to display messages
     private int xPosition = 0;  // Initial position of the text for the transition
     private String currentMessage = "Opening Joshua... User or Admin Mode.";  // Initial message
     private Player player;
     private AI ai;
+    private ArrayList<String> cities; // ArrayList to store cities
 
-    public Thermonuclear_War_v1() {
+    public Thermonuclear_War_v7() {
         setTitle("W.O.P.R Joshua");
         setSize(500, 600);
         setMinimumSize(new Dimension(1000, 700));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initialize();
-    }
-
-     public void initialize() {
-        // Initialize cities list with provided cities
+            }
         
-        cities = CityDatabase.getCities();
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(new Color(139, 0, 0));
-
-        taMessage = new JTextArea();
-        taMessage.setFont(new Font("Segoe print", Font.BOLD, 18));
-        taMessage.setEditable(false);
-        taMessage.setText(currentMessage);
-        taMessage.setOpaque(false);  // Make it transparent for smooth transitions
-        JScrollPane scrollPane = new JScrollPane(taMessage);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-
-        JButton btnUserMode = new JButton("User");
-        btnUserMode.setFont(new Font("Segoe print", Font.BOLD, 18));
-        btnUserMode.addActionListener(e -> handleUserMode());
-
-        JButton btnAdminMode = new JButton("Admin");
-        btnAdminMode.setFont(new Font("Segoe print", Font.BOLD, 18));
-        btnAdminMode.addActionListener(e -> handleAdminMode());
-
-        buttonPanel.add(btnUserMode);
-        buttonPanel.add(btnAdminMode);
-
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        getContentPane().add(mainPanel);
-        setVisible(true);
-
-        // Start the text transition effect
-        startTextTransition();
-    }
-
-    // Start the sliding text transition
-    private void startTextTransition() {
-        Timer timer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Update the position of the text
-                xPosition += 2;
-                if (xPosition > getWidth()) {
-                    xPosition = -getFontMetrics(getFont()).stringWidth(currentMessage);  // Reset to left side
-                }
-                taMessage.repaint();  // Trigger a repaint to update the text position
+            private void initialize() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'initialize'");
             }
-        });
-        timer.start();
-    }
-
-    // Override paintComponent to draw the text at the updated position
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.setFont(new Font("Segoe print", Font.BOLD, 18));
-        g.setColor(Color.WHITE);
-        g.drawString(currentMessage, xPosition, 100);  // Draw text at the current position
-    }
-
-    // Handle User Mode
-    private void handleUserMode() {
-        taMessage.setText("Confirm to play Thermonuclear War\n");
-
-        String userPassword = readUserPassword();
-        if (userPassword == null) {
-            String generatedPassword = generatePassword();
-            taMessage.append("Generated Password: " + generatedPassword + "\n");
-            storeUserPassword(generatedPassword);
-        } else {
-            String enteredPassword = JOptionPane.showInputDialog(this, "Enter password:");
-            if (verifyUserPassword(enteredPassword)) {
-                taMessage.append("Access granted... Accessing W.O.P.R\n");
-                launchMissile();
-            } else {
-                taMessage.append("Incorrect password. Access denied.\n");
-            }
-        }
-    }
-
-    // Handle Admin Mode
-    private void handleAdminMode() {
-        taMessage.setText("Enter Admin to reset W.O.P.R.\n");
-
-        String adminPassword = readAdminPassword();
-                if (adminPassword == null) {
-                    String enteredPassword = JOptionPane.showInputDialog(this, "Set Admin:");
-                    storeAdminPassword(enteredPassword);
-                                taMessage.append("Admin password set successfully.\n");
-                            }
-                    
-                            String enteredAdminPassword = JOptionPane.showInputDialog(this, "Enter Admin password:");
-                            if (verifyAdminPassword(enteredAdminPassword)) {
-                                        taMessage.append("Admin access granted... Accessing W.O.P.R\n");
-                                        taMessage.append("Greetings Professor Falken... Shall we play a game?\n");
-                                        resetUserPassword();
-                                    } else {
-                                        taMessage.append("Incorrect admin password.\n");
-                                    }
-                                }
-    // Player's Attributes
+        
+            // Player's Attributes
     static class Player {
         String name;
         int weapons;
@@ -162,7 +55,7 @@ public class Thermonuclear_War_v1 extends JFrame {
             return this.cities > 0;
         }
 
-        void launchMissile(Player target) {
+        void launchMissile(Player target, ArrayList<String> cities) {
             if (this.weapons > 0) {
                 System.out.println(this.name + " launches a missile!");
                 this.weapons--;
@@ -170,6 +63,28 @@ public class Thermonuclear_War_v1 extends JFrame {
                 target.cities -= damage;
                 this.aggressionLevel++;
                 System.out.println(this.name + " destroyed " + damage + "% of " + target.name + "'s cities.");
+
+                // Select target city
+                String[] cityArray = cities.toArray(new String[0]);
+                String targetCity = (String) JOptionPane.showInputDialog(null,
+                        "Choose a target city:",
+                        "Missile Target",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        cityArray,
+                        cityArray[0]);
+
+                if (targetCity != null) {
+                    System.out.println(this.name + " targets " + targetCity);
+                    // Simulate the missile hit
+                    if (new Random().nextBoolean()) {
+                        System.out.println(targetCity + " has been hit!");
+                    } else {
+                        System.out.println(targetCity + " survived.");
+                    }
+                } else {
+                    System.out.println("No city selected. Missile launch aborted.");
+                }
             } else {
                 System.out.println(this.name + " has no missiles left!");
             }
@@ -209,7 +124,7 @@ public class Thermonuclear_War_v1 extends JFrame {
             super(name);
         }
 
-        void makeDecision(Player player) {
+        void makeDecision(Player player, ArrayList<String> cities) {
             String action = null;
             if (this.weapons > 0 && this.cities > 0) {
                 // AI decision-making based on aggression levels
@@ -221,14 +136,14 @@ public class Thermonuclear_War_v1 extends JFrame {
 
                 switch (action) {
                     case "launch":
-                        this.launchMissile(player);
+                        this.launchMissile(player, cities);
                         break;
                     case "defend":
                         this.defend();
                         break;
                     case "negotiate":
                         if (!player.negotiate(this)) {
-                            this.launchMissile(player);  // If negotiations fail, launch an attack
+                            this.launchMissile(player, cities);  // If negotiations fail, launch an attack
                         }
                         break;
                     case "sabotage":
@@ -260,6 +175,9 @@ public class Thermonuclear_War_v1 extends JFrame {
         Player player = new Player(playerName);
         AI ai = new AI("AI");
 
+        // Initialize cities
+        ArrayList<String> cities = (ArrayList<String>) CityDatabase.getCities();  // Assuming CityDatabase is an external class providing the cities list
+
         boolean gameOver = false;
 
         while (!gameOver) {
@@ -277,14 +195,14 @@ public class Thermonuclear_War_v1 extends JFrame {
 
             switch (playerChoice) {
                 case "1":
-                    player.launchMissile(ai);
+                    player.launchMissile(ai, cities);
                     break;
                 case "2":
                     player.defend();
                     break;
                 case "3":
                     if (!ai.negotiate(player)) {
-                        player.launchMissile(ai);
+                        player.launchMissile(ai, cities);
                     }
                     break;
                 case "4":
@@ -300,7 +218,7 @@ public class Thermonuclear_War_v1 extends JFrame {
 
             // AI's turn (Automated for simplicity)
             if (ai.isAlive()) {
-                ai.makeDecision(player);
+                ai.makeDecision(player, cities);
             }
 
             // Handle missile defense: If the defense succeeds, reduce damage
