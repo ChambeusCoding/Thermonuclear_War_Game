@@ -467,7 +467,7 @@ class Player {
             taMessage.append("Missile launched! Choose a city to target.\n");
         
             // Convert ArrayList to array of city names
-            String[] cityArray = cities.toArray(new String[0]);  // Corrected: Converts List to Array
+          
         
             // Prompt the player to choose a target city
             String targetCity = (String) JOptionPane.showInputDialog(this,
