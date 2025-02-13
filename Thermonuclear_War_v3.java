@@ -149,6 +149,9 @@ public class Thermonuclear_War_v3 extends JFrame {
         cities.add("Madison");
         cities.add("Cheyenne");
 
+        
+
+        
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(139, 0, 0));
