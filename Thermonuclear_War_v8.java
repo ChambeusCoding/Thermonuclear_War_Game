@@ -9,7 +9,7 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.ArrayList;
 
-public class Thermonuclear_War_v3 extends JFrame {
+public class Thermonuclear_War_v8 extends JFrame {
     // Constants for password management
     static final String USER_PASSWORD_FILE = "user_password.txt";
     static final String ADMIN_PASSWORD_FILE = "admin_password.txt";
@@ -29,7 +29,7 @@ public class Thermonuclear_War_v3 extends JFrame {
     // ArrayList to store cities
     private ArrayList<String> cities;
 
-    public Thermonuclear_War_v3() {
+    public Thermonuclear_War_v8() {
         setTitle("W.O.P.R Joshua");
         setSize(500, 600);
         setMinimumSize(new Dimension(1000, 700));
@@ -39,7 +39,6 @@ public class Thermonuclear_War_v3 extends JFrame {
 
     public void initialize() {
         // Initialize cities list with provided cities
-   
         // cities = CityDatabase.getCities();
 
         JPanel mainPanel = new JPanel();
@@ -247,11 +246,11 @@ public class Thermonuclear_War_v3 extends JFrame {
     // Start the Thermonuclear War game
     private void startGame() {
         taMessage.setText("Starting Thermonuclear War game...\n");
-    
+
         // Create Player and AI instances
         player = new Player("Player", taMessage);
         ai = new AI("AI", taMessage);
-    
+
         // Initialize the game loop
         new Thread(() -> playGame()).start();
     }
@@ -260,11 +259,11 @@ public class Thermonuclear_War_v3 extends JFrame {
     private void playGame() {
         Random random = new Random();
         boolean gameOver = false;
-    
+
         while (!gameOver) {
             taMessage.append("\n" + player.name + "'s Weapons: " + player.weapons + ", " + ai.name + "'s Weapons: " + ai.weapons);
-            taMessage.append("\n" + player.name + "'s Cities: " + player.cities + ", " + ai.name + "'s Cities: " + ai.cities);
-    
+            taMessage.append("\n" + player.name + "'s Cities: " + player.cities.size() + ", " + ai.name + "'s Cities: " + ai.cities.size());
+
             // Player's turn
             String playerChoice = JOptionPane.showInputDialog(this,
                     "\nChoose an option:\n1. Launch a missile\n2. Defend\n3. Negotiate\n4. W.O.P.R");
@@ -287,15 +286,15 @@ public class Thermonuclear_War_v3 extends JFrame {
                 default:
                     taMessage.append("Invalid choice! Please select a valid option.");
             }
-    
+
             // Random event (weather or sabotage)
             randomEvent();
-    
+
             // AI's turn
             if (ai.isAlive()) {
                 ai.makeDecision(player);
             }
-    
+
             // Check if game is over
             if (player.cities.size() <= 0 || ai.cities.size() <= 0) {
                 gameOver = true;
@@ -308,7 +307,7 @@ public class Thermonuclear_War_v3 extends JFrame {
                     taMessage.append(player.name + " won! All of " + ai.name + "'s cities were destroyed.");
                 }
             }
-    
+
             try {
                 Thread.sleep(2000);  // Pause before the next round
             } catch (InterruptedException e) {
@@ -322,102 +321,69 @@ public class Thermonuclear_War_v3 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Thermonuclear_War_v3());
+        SwingUtilities.invokeLater(() -> new Thermonuclear_War_v8());
     }
 }
 
 // Player class definition
 class Player {
-    String name;
-    int weapons;
-    ArrayList<String> cities; // Corrected to ArrayList<String> for cities
-    double defense;
-    int aggressionLevel;
-
-    private JTextArea taMessage;  // Reference to taMessage
-
-    Player(String name, JTextArea taMessage) {
-        this.name = name;
-        this.weapons = 3000;
-        this.cities = new ArrayList<>();  // Initialize the cities list
-        this.defense = 0.5;
-        this.aggressionLevel = 0;
-        this.taMessage = taMessage;
-        // You can add cities here, e.g., this.cities.add("City1");
-    }
-
-    public void launchMissile(Player target) {
-        if (this.weapons > 0) {
-            taMessage.append(this.name + " launches a missile!\n");
-            this.weapons--;  // Decrease the missile count
+    private static final int MISSILE_DAMAGE = 0;
+        String name;
+        int weapons;
+        ArrayList<String> cities; // Corrected to ArrayList<String> for cities
+        double defense;
+        int aggressionLevel;
     
-            // Get target cities as an array from the Player's cities
-            String[] cityArray = target.getCities().toArray(new String[0]);  // Convert List to array
+        private JTextArea taMessage;  // Reference to taMessage
     
-            // Show input dialog to select the city
-            String targetCity = (String) JOptionPane.showInputDialog(this,
-                    "Choose a target city:",
-                    "Missile Target",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    cityArray,
-                    cityArray[0]);
+        Player(String name, JTextArea taMessage) {
+            this.name = name;
+            this.weapons = 3000;
+            this.cities = new ArrayList<>();  // Initialize the cities list
+            this.defense = 0.5;
+            this.aggressionLevel = 0;
+            this.taMessage = taMessage;
+        }
     
-            // If a valid city is selected
-            if (targetCity != null) {
-                taMessage.append("Missile heading to " + targetCity + ".\n");
+        // Method to get cities in Player class
+        public ArrayList<String> getCities() {
+            return this.cities;  // Returning the ArrayList of cities
+        }
     
-                // Simulate a random hit or miss
-                if (new Random().nextDouble() < 0.5) {  // 50% chance for a hit
-                    taMessage.append(targetCity + " has been hit!\n");
+        void defend() {
+            taMessage.append(this.name + " activates missile defense systems!\n");
+            this.defense = 0.7;  // Increase defense for the turn
+        }
     
-                    // Calculate damage
-                    int damage = new Random().nextInt(MISSILE_DAMAGE) + 1;  // Damage between 1 and MISSILE_DAMAGE
-    
-                    // Remove city and apply damage
-                    target.getCities().remove(targetCity);  // Remove the city as it's destroyed
-                    taMessage.append(this.name + " destroyed " + targetCity + " causing " + damage + "% damage.\n");
-                    
-                    // Optional: Check if all cities are destroyed
-                    if (target.getCities().isEmpty()) {
-                        taMessage.append(target.name + " has no cities left!\n");
-                    }
-                } else {
-                    taMessage.append(targetCity + " has survived the attack.\n");
-                }
+        boolean negotiate(Player target) {
+            taMessage.append(this.name + " is trying to negotiate with " + target.name + "...\n");
+            if (new Random().nextDouble() < 0.5) {
+                taMessage.append(this.name + " successfully convinced " + target.name + " to stop the missile strike!\n");
+                return true;
             } else {
-                taMessage.append("No city selected. Missile launch aborted.\n");
+                taMessage.append(this.name + "'s negotiations failed. " + target.name + " ignores them.\n");
+                return false;
             }
-        } else {
-            taMessage.append(this.name + " has no missiles left!\n");
         }
-    }
     
-    // Method to get cities in Player class
-    public ArrayList<String> getCities() {
-        return this.cities;  // Returning the ArrayList of cities
-    }
-    void defend() {
-        taMessage.append(this.name + " activates missile defense systems!\n");
-        this.defense = 0.7;  // Increase defense for the turn
-    }
-
-    boolean negotiate(Player target) {
-        taMessage.append(this.name + " is trying to negotiate with " + target.name + "...\n");
-        if (new Random().nextDouble() < 0.5) {
-            taMessage.append(this.name + " successfully convinced " + target.name + " to stop the missile strike!\n");
-            return true;
-        } else {
-            taMessage.append(this.name + "'s negotiations failed. " + target.name + " ignores them.\n");
-            return false;
+        boolean isAlive() {
+            return this.cities.size() > 0;  // Player is alive if they have cities left
         }
-    }
-
-    boolean isAlive() {
-        return this.cities.size() > 0;  // Player is alive if they have cities left
+    
+        void launchMissile(Player player) {
+                    Random rand = new Random();
+                    taMessage.append(this.name + " launches a missile!\n");
+                    if (rand.nextDouble() > player.defense) {
+                        int damage = (int) (MISSILE_DAMAGE * player.cities.size() / 100);
+                    player.cities.remove(damage); // Remove cities based on missile damage
+                    taMessage.append("Missile hit! " + player.name + "'s cities are damaged by " + damage + "!\n");
+                } else {
+                    taMessage.append(player.name + "'s defense intercepted the missile!\n");
+        }
     }
 }
 
+// AI class definition
 class AI extends Player {
     AI(String name, JTextArea taMessage) {
         super(name, taMessage);

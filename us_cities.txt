@@ -1,61 +1,61 @@
- array.add ("Adrian");
- array.add ("Alma");
- array.add ("Ann Arbor
- array.add ("Battle Creek
- array.add ("Bay City
- array.add ("Benton Harbor
- array.add ("Bloomfield Hills
- array.add ("Cadillac
- array.add ("Charlevoix
- array.add ("Cheboygan
- array.add ("Dearborn
- array.add ("Detroit
- array.add ("East Lansing
- array.add ("Eastpointe
- array.add ("Ecorse
- array.add ("Escanaba
- array.add ("Flint
- array.add ("Grand Haven
- array.add ("Grand Rapids
- array.add ("Grayling
- array.add ("Grosse Pointe
- array.add ("Hancock
- array.add ("Highland Park
- array.add ("Holland
- array.add ("Houghton
- array.add ("Interlochen
- array.add ("Iron Mountain
- array.add ("Ironwood
- array.add ("Ishpeming
- array.add ("Jackson
- array.add ("Kalamazoo
- array.add ("Lansing
- array.add ("Livonia
- array.add ("Ludington
- array.add ("Mackinaw City
- array.add ("Manistee
- array.add ("Marquette
- array.add ("Menominee
- array.add ("Midland
- array.add ("Monroe
- array.add ("Mount Clemens
- array.add ("Mount Pleasant
- array.add ("Muskegon
- array.add ("Niles
- array.add ("Petoskey
- array.add ("Pontiac
- array.add ("Port Huron")
- array.add ("Royal Oak");
- array.add ("Saginaw");
- array.add ("Saint Ignace");
- array.add ("Saint Joseph");
- array.add ("Sault Sainte Marie");
- array.add ("Traverse City");
- array.add ("Trenton");
- array.add ("Warren");
- array.add ("Wyandotte");
- array.add ("Ypsilanti");
- Alabama - Montgomery
+Adrian
+Alma
+Ann Arbor
+Battle Creek
+Bay City
+Benton Harbor
+Bloomfield Hills
+Cadillac
+Charlevoix
+Cheboygan
+Dearborn
+Detroit
+East Lansing
+Eastpointe
+Ecorse
+Escanaba
+Flint
+Grand Haven
+Grand Rapids
+Grayling
+Grosse Pointe
+Hancock
+Highland Park
+Holland
+Houghton
+Interlochen
+Iron Mountain
+Ironwood
+Ishpeming
+Jackson
+Kalamazoo
+Lansing
+Livonia
+Ludington
+Mackinaw City
+Manistee
+Marquette
+Menominee
+Midland
+Monroe
+Mount Clemens
+Mount Pleasant
+Muskegon
+Niles
+Petoskey
+Pontiac
+Port Huron
+Royal Oak
+Saginaw
+Saint Ignace
+Saint Joseph
+Sault Sainte Marie
+Traverse City
+Trenton
+Warren
+Wyandotte
+Ypsilanti
+Montgomery
 Juneau
 Phoenix
 Little Rock
@@ -97,7 +97,7 @@ Providence
 Columbia
 Pierre
 Nashville
-Texas - Austin
+Austin
 Salt Lake City
 Montpelier
 Richmond

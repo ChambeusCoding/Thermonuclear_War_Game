@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Scanner;
 
-public class ThermonuclearWarGame extends Application {
+public class Thermonuclear_War_v9_JavaFx extends Application {
 
     private TextArea taMessage;
     private Player player;

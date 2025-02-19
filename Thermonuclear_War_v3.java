@@ -328,51 +328,47 @@ public class Thermonuclear_War_v3 extends JFrame {
 
 // Player class definition
 class Player {
-    String name;
-    int weapons;
-    ArrayList<String> cities; // Corrected to ArrayList<String> for cities
-    double defense;
-    int aggressionLevel;
-
-    private JTextArea taMessage;  // Reference to taMessage
-
-    Player(String name, JTextArea taMessage) {
-        this.name = name;
-        this.weapons = 3000;
-        this.cities = new ArrayList<>();  // Initialize the cities list
-        this.defense = 0.5;
-        this.aggressionLevel = 0;
-        this.taMessage = taMessage;
-        // You can add cities here, e.g., this.cities.add("City1");
-    }
-
-    public void launchMissile(Player target) {
-        if (this.weapons > 0) {
-            taMessage.append(this.name + " launches a missile!\n");
-            this.weapons--;  // Decrease the missile count
+    private static final int MISSILE_DAMAGE = 0;
+        String name;
+        int weapons;
+        ArrayList<String> cities; // Corrected to ArrayList<String> for cities
+        double defense;
+        int aggressionLevel;
     
-            // Get target cities as an array from the Player's cities
-            String[] cityArray = target.getCities().toArray(new String[0]);  // Convert List to array
+        private JTextArea taMessage;  // Reference to taMessage
     
-            // Show input dialog to select the city
-            String targetCity = (String) JOptionPane.showInputDialog(this,
-                    "Choose a target city:",
-                    "Missile Target",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    cityArray,
-                    cityArray[0]);
+        Player(String name, JTextArea taMessage) {
+            this.name = name;
+            this.weapons = 3000;
+            this.cities = new ArrayList<>();  // Initialize the cities list
+            this.defense = 0.5;
+            this.aggressionLevel = 0;
+            this.taMessage = taMessage;
+            // You can add cities here, e.g., this.cities.add("City1");
+        }
     
-            // If a valid city is selected
-            if (targetCity != null) {
-                taMessage.append("Missile heading to " + targetCity + ".\n");
-    
-                // Simulate a random hit or miss
-                if (new Random().nextDouble() < 0.5) {  // 50% chance for a hit
-                    taMessage.append(targetCity + " has been hit!\n");
-    
-                    // Calculate damage
-                    int damage = new Random().nextInt(MISSILE_DAMAGE) + 1;  // Damage between 1 and MISSILE_DAMAGE
+        public void launchMissile(Player target) {
+            if (this.weapons > 0) {
+                taMessage.append(this.name + " launches a missile!\n");
+                this.weapons--;  // Decrease the missile count
+        
+                // Get target cities as an array from the Player's cities
+                String[] cityArray = target.getCities().toArray(new String[0]);  // Convert List to array
+        
+                // Show input dialog to select the city
+                String targetCity = (String) JOptionPane.showInputDialog(null,
+                        cityArray);
+        
+                // If a valid city is selected
+                if (targetCity != null) {
+                    taMessage.append("Missile heading to " + targetCity + ".\n");
+        
+                    // Simulate a random hit or miss
+                    if (new Random().nextDouble() < 0.5) {  // 50% chance for a hit
+                        taMessage.append(targetCity + " has been hit!\n");
+        
+                        // Calculate damage
+                        int damage = new Random().nextInt(MISSILE_DAMAGE) + 1;  // Damage between 1 and MISSILE_DAMAGE
     
                     // Remove city and apply damage
                     target.getCities().remove(targetCity);  // Remove the city as it's destroyed
