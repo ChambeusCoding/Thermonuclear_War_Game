@@ -1,3 +1,2 @@
-All Rights Reserved
-No stealing unless I give it to you
-AND NO CHANGING THE GAME
+All artwork, audio, and narrative content are © 2025 Chambeus and are not licensed for reuse.
+
